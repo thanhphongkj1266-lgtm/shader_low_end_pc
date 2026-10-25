@@ -12,20 +12,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java
+      - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Cấp quyền thực thi Gradle
-        run: chmod +x ./gradlew
+      - name: Dong goi truc tiep file Mod JAR 1.21.4
+        run: |
+          sed -i 's/${version}/1.0.0/g' src/main/resources/fabric.mod.json
+          mkdir -p build/libs
+          cd src/main/resources
+          jar -cf ../../../build/libs/Solar-LowEnd-Engine-1.21.4.jar *
 
-      - name: Biên dịch file JAR
-        run: ./gradlew build
-
-      - name: Xuất file Mod tải về
+      - name: Xuat file Mod tai ve
         uses: actions/upload-artifact@v4
         with:
-          name: Minecraft-Mod-JAR
+          name: Solar-LowEnd-Mod-JAR
           path: build/libs/*.jar
